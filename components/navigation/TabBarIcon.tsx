@@ -5,6 +5,7 @@ import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { type IconProps } from '@expo/vector-icons/build/createIconSet';
 import { type ComponentProps } from 'react';
 import { View, Image, StyleSheet } from 'react-native';
+import { Feather } from '@expo/vector-icons';
 
 
 
@@ -14,6 +15,10 @@ export function IoniconTemplate({ style, ...rest }: IconProps<ComponentProps<typ
 
 export function FontAwesomeTemplate({ style, ...rest }: IconProps<ComponentProps<typeof FontAwesome6>['name']>) {
   return <FontAwesome6 size={28} style={[{ marginBottom: -3 }, style]} {...rest} />;
+}
+
+export function FeatheTemplate({ style, ...rest }: IconProps<ComponentProps<typeof Feather>['name']>) {
+  return <Feather size={28} style={[{ marginBottom: -3 }, style]} {...rest} />;
 }
 
 export function ProfileTemplate() {
