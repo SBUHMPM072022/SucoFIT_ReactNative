@@ -45,7 +45,8 @@ const styles = StyleSheet.create({
     },
     subTitle: {
         fontSize: 18,
-        fontFamily: 'PoppinsSemiBold'
+        fontFamily: 'PoppinsSemiBold',
+        color: '#222222',
     },
     divider: {
         width: 1,

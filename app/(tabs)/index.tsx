@@ -1,3 +1,4 @@
+import { CardEventItem } from '@/components/CardEventItem';
 import { CardRecord } from '@/components/CardRecord';
 import { HeaderPage } from '@/components/HeaderPage';
 import { StoryBar } from '@/components/StoryBar';
@@ -34,6 +35,7 @@ export default function HomeScreen() {
         <Text style={styles.sectionTitle}>Your Record</Text>
         <CardRecord />
         <Text style={styles.sectionTitle}>Hot Events</Text>
+        <CardEventItem />
       </View>
     </ThemedView>
   );
