@@ -33,7 +33,7 @@ export default function RootLayout() {
 
   return (
     // untuk sementara dibuat light dulu
-    <ThemeProvider value={colorScheme === 'light' ? DarkTheme : DefaultTheme}> 
+    <ThemeProvider value={DefaultTheme}> 
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />

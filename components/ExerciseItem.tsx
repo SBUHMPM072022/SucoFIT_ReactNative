@@ -1,13 +1,22 @@
 import React from 'react';
+import { useRouter } from 'expo-router';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
-export const ExerciseItem = ({ story, onPress } : any) => {
-    return (
-      <TouchableOpacity onPress={() => onPress(story)} style={styles.storyItem}>
-        <Image source={require('../assets/images/badminton.jpg')} resizeMode='cover' style={styles.image}/>
-        <Text style={{ paddingVertical: 4, paddingHorizontal: 3, fontWeight: '600', color: '#222222' }}>Futsal / Mini Soccer</Text>
-      </TouchableOpacity>
-    );
+export const ExerciseItem = ({ story } : any) => {
+  const router: any = useRouter();
+
+  const onPress = () => {
+    router.push({
+      pathname: '/recording'
+    });
+  }
+
+  return (
+    <TouchableOpacity onPress={() => onPress()} style={styles.storyItem}>
+      <Image source={require('../assets/images/badminton.jpg')} resizeMode='cover' style={styles.image}/>
+      <Text style={{ paddingVertical: 4, paddingHorizontal: 3, fontWeight: '600', color: '#222222' }}>Futsal / Mini Soccer</Text>
+    </TouchableOpacity>
+  );
 };
 
 const styles = StyleSheet.create({
