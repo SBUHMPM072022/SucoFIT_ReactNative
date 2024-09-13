@@ -1,70 +1,83 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { StyleSheet, Text, View, Image } from 'react-native';
+import { Stack } from 'expo-router';
+import { Dimensions } from 'react-native';
+import { FontAwesomeTemplate, IoniconTemplate } from '@/components/navigation/TabBarIcon';
 
-export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try itn</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
+const { height } = Dimensions.get('window');
+
+export default function Profile() {
+    return (
+        <ThemedView>
+            <View style={styles.background_page}>
+                <View style={styles.title}>
+                    <Text style={{ fontSize: 17, fontWeight: '600', color: 'white', marginTop: 50 }}>Your Profile</Text>
+                </View>
+                <View style={styles.profile_container}>
+                    <Image
+                        source={require('../../assets/images/profile.jpg')} 
+                      style={styles.image}
+                    />
+                    <Text style={{ fontSize: 18, color: 'white' }}>Jhon Doe</Text>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 16 }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                            <View style={styles.circle}>
+                                <Text style={styles.letter}>P</Text>
+                            </View>
+                            <Text style={styles.header2}>3230</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                            <View style={styles.circle}>
+                                <FontAwesomeTemplate name={'users'} color={'#FFFFFF'} size={10}/>
+                            </View>
+                            <Text style={styles.header2}>20</Text>
+                        </View>
+                    </View>
+                </View>
+            </View>
+        </ThemedView>
+    )
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
+    background_page: {
+        backgroundColor: '#027FB9',
+        height: 290,
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20
+    },
+    title: {
+        marginVertical: 10, 
+        flexDirection: 'row',
+        justifyContent: 'center'
+    },
+    profile_container: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 10
+    },
+    image: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+    },
+    header2: {
+        fontSize: 16,
+        fontWeight: '600',
+        color: 'white'
+    },
+    circle: {
+        width: 20, 
+        height: 20,
+        borderRadius: 50, 
+        backgroundColor: '#FF7F3E', 
+        justifyContent: 'center', 
+        alignItems: 'center'
+    },
+    letter: {
+        fontSize: 12, 
+        fontWeight: 'bold',
+        color: '#FFFFFF'
+    },
+})
