@@ -4,6 +4,8 @@ import { HeaderPage } from '@/components/HeaderPage';
 import { StoryBar } from '@/components/StoryBar';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { Auth } from '@/utils/Helper';
+import { useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet, FlatList } from 'react-native';
 
 export default function HomeScreen() {
@@ -25,6 +27,10 @@ export default function HomeScreen() {
       viewed: true,
     },
   ];
+
+  useEffect(() => {
+    Auth.CheckAuth()
+  },[]);
   
 
   return (

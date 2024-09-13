@@ -1,9 +1,16 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { FontAwesomeTemplate } from '@/components/navigation/TabBarIcon';
+import * as SecureStore from 'expo-secure-store';
+import { useEffect } from 'react';
+import { Auth } from '@/utils/Helper';
 
 export default function TabTwoScreen() {
+
+  useEffect(() => {
+    Auth.CheckAuth()
+  },[]);
+
   return (
     <ThemedView>
       <View style={styles.background_page}>

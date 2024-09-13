@@ -2,6 +2,8 @@ import { Image, StyleSheet, Platform, View } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { HeaderPage } from '@/components/HeaderPage';
 import { ListExercises } from '@/components/ListExercises';
+import { useEffect } from 'react';
+import { Auth } from '@/utils/Helper';
 
 export default function HomeScreen() {
 
@@ -46,6 +48,10 @@ export default function HomeScreen() {
       category_name: 'Flexibility'
     },
   ];
+
+  useEffect(() => {
+    Auth.CheckAuth()
+  },[]);
 
   return (
     <ThemedView style={{ flex: 1 }}>
