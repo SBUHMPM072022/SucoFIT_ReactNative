@@ -1,7 +1,8 @@
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native"
 import { LinearGradient } from 'expo-linear-gradient';
+import axios from "axios";
 
-export const CardEventItem = () => {
+export const CardEventItem = ({ event_name, event_date, location, registration_date }: any) => {
     return (
         <View style={styles.container}>
             <LinearGradient
@@ -12,13 +13,15 @@ export const CardEventItem = () => {
             >
                 <View style={styles.container}>
                     <View style={styles.text_section}>
-                        <Text style={styles.title}>Event Marathon Sucofindo</Text>
-                        <Text style={styles.text_thin}>Sucofindo - GBK</Text>
-                        <View style={{ marginVertical: 5 }}>
-                            <Text style={styles.text_light}>Held On</Text>
-                            <Text style={styles.text_light}>20 July 2024</Text>
+                        <Text style={styles.title}>{event_name}</Text>
+                        <View style={{ marginTop: 10 }}>
+                            <Text style={styles.text_thin}>{location}</Text>
+                            <View style={{ marginVertical: 5 }}>
+                                <Text style={styles.text_light}>Held On</Text>
+                                <Text style={styles.text_light}>{event_date}</Text>
+                            </View>
                         </View>
-                        <View style={{ marginVertical: 7 }}>
+                        <View style={{ marginVertical: 10 }}>
                             <TouchableOpacity
                                 style={styles.button_orange}
                                 onPress={() => alert('Custom Button ditekan!')}
@@ -35,10 +38,12 @@ export const CardEventItem = () => {
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        width: 300,
+        marginRight: 10
     },
     card_container: {
-        flexDirection: 'row'
+        flexDirection: 'row',
     },
     gradient: {
         flex: 1,
@@ -72,12 +77,13 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
     },
     text_section: {
-        width: '50%',
+        width: '100%',
         padding: 15
     },
     button_orange: {
         backgroundColor: '#FF7F3E',
-        borderRadius: 12
+        borderRadius: 12,
+        width: 150
     },
     button_text: {
         color: '#FFFFFF',

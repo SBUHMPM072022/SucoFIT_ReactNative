@@ -1,12 +1,53 @@
 import { ThemedView } from '@/components/ThemedView';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { Stack } from 'expo-router';
 import { Dimensions } from 'react-native';
 import { FontAwesomeTemplate, IoniconTemplate } from '@/components/navigation/TabBarIcon';
+import { useEffect, useState } from 'react';
+import { ConfirmationModal } from '@/components/ConfirmationModal';
 
 const { height } = Dimensions.get('window');
 
 export default function RecordJoging() {
+    const [isStart, setIsStart] = useState(false);
+    const [seconds, setSeconds] = useState(0);
+    const [modalVisible, setModalVisible] = useState(false);
+
+    useEffect(() => {
+        if(isStart){
+            const interval = setInterval(() => {
+              setSeconds((prevSeconds) => prevSeconds + 1);
+            }, 1000);
+
+            return () => clearInterval(interval);
+        }
+    }, [isStart]);
+
+    const handleCloseModal = () => {
+        setModalVisible(false);
+    }
+
+    const handleConfirm = () => {
+        setModalVisible(false);
+    }
+
+    const handleCancel = () => {
+        setModalVisible(false);
+        setIsStart(true);
+    }
+
+    const handleStopClicked = () => {
+        setModalVisible(true);
+        setIsStart(false);
+    }
+
+    const formatTime = (secs: number) => {
+        const hours = Math.floor(secs / 3600);
+        const minutes = Math.floor((secs % 3600) / 60);
+        const seconds = secs % 60;
+        return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    };
+
     return (
         <ThemedView>
             <Stack.Screen options={{ headerShown: false }} />
@@ -19,22 +60,30 @@ export default function RecordJoging() {
                             <Text style={{ fontSize: 18, color: 'white' }}>Time</Text>
                         </View>
                         <View style={styles.timer_card}>
-                            <Text style={styles.timer_text}>00</Text>
-                            <Text style={styles.timer_text}>:</Text>
-                            <Text style={styles.timer_text}>00</Text>
-                            <Text style={styles.timer_text}>:</Text>
-                            <Text style={styles.timer_text}>00</Text>
+                            <Text style={styles.timer_text}>{formatTime(seconds)}</Text>
                         </View>
                     </View>
                 </View>
                 <View style={styles.button_container}>
-                    <FontAwesomeTemplate name={'pause'} color={'#FFFFFF'} size={40}/>
-                    <View style={styles.circle}>
-                        <FontAwesomeTemplate name={'stop'} color={'#FFFFFF'} size={40}/>
-                    </View>
+                    <TouchableOpacity onPress={() => setIsStart(false)}>
+                        <FontAwesomeTemplate name={'pause'} color={'#FFFFFF'} size={40}/>
+                    </TouchableOpacity>
+                        {!isStart && 
+                            <TouchableOpacity style={styles.circle} onPress={() => setIsStart(true)}>
+                                <FontAwesomeTemplate name={'play'} color={'#FFFFFF'} size={40}/>
+                            </TouchableOpacity>
+                        }
+                        {isStart &&
+                            <TouchableOpacity style={styles.circle} onPress={() => handleStopClicked()}>
+                                <FontAwesomeTemplate name={'stop'} color={'#FFFFFF'} size={40}/>
+                            </TouchableOpacity>
+                        }
                     <FontAwesomeTemplate name={'location-dot'} color={'#FFFFFF'} size={40}/>
                 </View>
             </View>
+            {modalVisible &&
+                <ConfirmationModal modalVisible={modalVisible} closeModal={handleCloseModal} handleConfirm={handleConfirm} handleCancel={handleCancel}/>
+            }
         </ThemedView>
     )
 }

@@ -1,17 +1,37 @@
 import { CardEventItem } from '@/components/CardEventItem';
 import { CardRecord } from '@/components/CardRecord';
+import { EventBar } from '@/components/EventBar';
 import { HeaderPage } from '@/components/HeaderPage';
 import { StoryBar } from '@/components/StoryBar';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Auth } from '@/utils/Helper';
-import { useEffect } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, FlatList } from 'react-native';
 
 export default function HomeScreen() {
+  const [eventData, setEventData] = useState([]);
+  const [eventLoading, setEventLoading] = useState(false);
+  const [eventError, setEventError] = useState(null);
+
   const handleStoryPress = (story: any) => {
     console.log('Cerita diklik:', story);
   };
+
+  const getEventData = async () => {
+    try{  
+      const response = await axios.get('http://localhost:4006/api/v1/web/event');
+      const data = response.data.data;
+      console.log(data);
+      
+      setEventData(data);
+    }catch(error: any){
+      setEventError(error)
+    }finally{
+      setEventLoading(false)
+    }
+  }
 
   const stories = [
     {
@@ -29,7 +49,8 @@ export default function HomeScreen() {
   ];
 
   useEffect(() => {
-    Auth.CheckAuth()
+    Auth.CheckAuth(),
+    getEventData();
   },[]);
   
 
@@ -41,7 +62,9 @@ export default function HomeScreen() {
         <Text style={styles.sectionTitle}>Your Record</Text>
         <CardRecord />
         <Text style={styles.sectionTitle}>Hot Events</Text>
-        <CardEventItem />
+        <View>
+          <EventBar events={eventData} onEventPress={() => {}}/>
+        </View>
       </View>
     </ThemedView>
   );
