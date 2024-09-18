@@ -2,25 +2,16 @@ import { Image, StyleSheet, Platform, View } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { HeaderPage } from '@/components/HeaderPage';
 import { ListExercises } from '@/components/ListExercises';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Auth } from '@/utils/Helper';
+import axios from 'axios';
+import { ListYourEvents } from '@/components/ListYourEvents';
 
 export default function HomeScreen() {
-
-  const stories = [
-    {
-      id: '1',
-      username: 'Joging',
-      imageUrl: 'https://example.com/story1.jpg',
-      viewed: false,
-    },
-    {
-      id: '2',
-      username: 'Badminton',
-      imageUrl: 'https://example.com/story2.jpg',
-      viewed: true,
-    },
-  ];
+  const [exerciseData, setExerciseData] = useState([]);
+  const [exerciseLoading, setExerciseLoading] = useState(true);
+  const [exerciseError, setExerciseError] = useState(null);
+  const [activeCategory, setActiveCategory] = useState('All');
 
   const categories = [
     {
@@ -49,15 +40,34 @@ export default function HomeScreen() {
     },
   ];
 
+  const handleSelectCategory = (selectedValue: string) => {
+    setActiveCategory(selectedValue);
+  }
+
+  const getListExercise = async () => {
+    try{
+      const response = await axios.get(`http://localhost:4006/api/v1/web/exercise?category_name=${activeCategory}`);
+      const data = response.data.data;
+
+      setExerciseData(data);
+    }catch(error: any){
+      setExerciseLoading(error)
+    }finally{
+      setExerciseLoading(false);
+    }
+  }
+
   useEffect(() => {
-    Auth.CheckAuth()
-  },[]);
+    Auth.CheckAuth();
+    getListExercise();
+  },[activeCategory]);
 
   return (
     <ThemedView style={{ flex: 1 }}>
       <HeaderPage headerTitle='Discover' />
       <View style={{ marginTop: 90, backgroundColor: '#F8F8F8', paddingHorizontal: 20 }}>
-        <ListExercises stories={stories} categories={categories}/>
+        <ListExercises exercises={exerciseData} categories={categories} activeCategory={activeCategory} handleSelectCategory={handleSelectCategory}/>
+        <ListYourEvents />
       </View>
     </ThemedView>
   );

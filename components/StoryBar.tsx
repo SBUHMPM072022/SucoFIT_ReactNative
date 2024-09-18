@@ -2,12 +2,12 @@ import React from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 import { StoryItem } from './StoryItem';
 
-export const StoryBar = ({ stories, onStoryPress }: any) => {
+export const StoryBar = ({ key, exercises, onStoryPress }: any) => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={stories}
-        renderItem={({ item }) => <StoryItem story={item} onPress={onStoryPress} />}
+        data={exercises}
+        renderItem={({ item }) => <StoryItem key={item.id}  exercise={item} onPress={onStoryPress} />}
         keyExtractor={(item) => item.id}
         horizontal
         showsHorizontalScrollIndicator={false}

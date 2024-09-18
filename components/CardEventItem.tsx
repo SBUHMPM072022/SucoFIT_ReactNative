@@ -1,8 +1,31 @@
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native"
 import { LinearGradient } from 'expo-linear-gradient';
 import axios from "axios";
+import { Toast } from "toastify-react-native";
+import { useState } from "react";
 
-export const CardEventItem = ({ event_name, event_date, location, registration_date }: any) => {
+export const CardEventItem = ({ event_id, event_name, event_date, location, registration_date, user_id }: any) => {
+    const [loading, setLoading] = useState(false);
+
+    const handleJoin = async() => {
+        setLoading(true);
+
+        try{
+            const joinData = {
+                user_id: user_id,
+                event_id: event_id
+            };
+
+            const response = await axios.post('http://localhost:4006/api/v1/web/join-event', joinData);
+            setLoading(false);
+
+            if(response.data.status == 'success') Toast.success("Your event registration was successful!")
+            
+        }catch(error: any){
+            setLoading(false);
+        }
+    }
+    
     return (
         <View style={styles.container}>
             <LinearGradient
@@ -24,7 +47,7 @@ export const CardEventItem = ({ event_name, event_date, location, registration_d
                         <View style={{ marginVertical: 10 }}>
                             <TouchableOpacity
                                 style={styles.button_orange}
-                                onPress={() => alert('Custom Button ditekan!')}
+                                onPress={() => handleJoin()}
                             >
                                 <Text style={styles.button_text} >Join Event</Text>
                             </TouchableOpacity>

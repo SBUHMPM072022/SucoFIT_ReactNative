@@ -1,12 +1,29 @@
 import { Tabs } from 'expo-router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { FontAwesomeTemplate, IoniconTemplate, ProfileTemplate } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const [profilePicture, setProfilePicture] = useState('');
+
+  const getProfilePicture = async () => {
+    try{
+      const userProfile: any = await AsyncStorage.getItem('profile_picture');
+      console.log(userProfile);
+      
+      if(!userProfile) setProfilePicture(userProfile);
+    }catch(error){
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getProfilePicture();
+  }, [])
 
   return (
     <Tabs
@@ -59,7 +76,7 @@ export default function TabLayout() {
         options={{
           title: '',
           tabBarIcon: ({ color, focused }) => (
-            <ProfileTemplate />
+            <ProfileTemplate userProfile={profilePicture}/>
           ),
         }}
       />

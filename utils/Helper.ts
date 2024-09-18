@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { router } from 'expo-router';
+import { jwtDecode } from "jwt-decode";
 
 export const Auth = {
     CheckAuth: async () => {
@@ -11,5 +12,14 @@ export const Auth = {
         }catch(error){
           router.replace('/login')
         }
+    },
+    JWTDecoded: async (token: string) => {
+      try{
+        const decoded = jwtDecode(token);
+        return decoded
+      }catch(error){
+        console.log(error);
+        
+      }
     }
 } 

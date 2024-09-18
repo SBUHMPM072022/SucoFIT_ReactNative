@@ -4,6 +4,7 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
+import ToastManager from 'toastify-react-native'
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 
@@ -32,8 +33,8 @@ export default function RootLayout() {
   }
 
   return (
-    // untuk sementara dibuat light dulu
     <ThemeProvider value={DefaultTheme}> 
+      <ToastManager positionValue={0} height={50} textStyle={{ fontSize: 14 }}/>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />

@@ -32,6 +32,9 @@ export default function Login() {
             if(dataResponse.token){
                 await AsyncStorage.setItem('token', dataResponse.token)
                 await AsyncStorage.setItem('fullname', dataResponse.fullname)
+                await AsyncStorage.setItem('profile_picture', dataResponse.profile_picture)
+                await AsyncStorage.setItem('total_point', dataResponse.total_point)
+                await AsyncStorage.setItem('user_id', dataResponse.user_id)
 
                 router.replace('/');
             }

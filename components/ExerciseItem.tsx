@@ -2,7 +2,7 @@ import React from 'react';
 import { useRouter } from 'expo-router';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
-export const ExerciseItem = ({ story } : any) => {
+export const ExerciseItem = ({ exercise } : any) => {
   const router: any = useRouter();
 
   const onPress = () => {
@@ -13,8 +13,8 @@ export const ExerciseItem = ({ story } : any) => {
 
   return (
     <TouchableOpacity onPress={() => onPress()} style={styles.storyItem}>
-      <Image source={require('../assets/images/badminton.jpg')} resizeMode='cover' style={styles.image}/>
-      <Text style={{ paddingVertical: 4, paddingHorizontal: 3, fontWeight: '600', color: '#222222' }}>Futsal / Mini Soccer</Text>
+      <Image source={{ uri: `http://localhost:4006/${exercise.exercise_cover}` }} resizeMode='cover' style={styles.image}/>
+      <Text style={{ paddingVertical: 4, paddingHorizontal: 3, fontWeight: '600', color: '#222222' }}>{exercise.exercise_name}</Text>
     </TouchableOpacity>
   );
 };

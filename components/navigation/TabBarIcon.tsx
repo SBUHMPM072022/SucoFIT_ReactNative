@@ -8,7 +8,6 @@ import { View, Image, StyleSheet } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
 
-
 export function IoniconTemplate({ style, ...rest }: IconProps<ComponentProps<typeof Ionicons>['name']>) {
   return <Ionicons size={28} style={[{ marginBottom: -3 }, style]} {...rest} />;
 }
@@ -21,11 +20,13 @@ export function FeatheTemplate({ style, ...rest }: IconProps<ComponentProps<type
   return <Feather size={28} style={[{ marginBottom: -3 }, style]} {...rest} />;
 }
 
-export function ProfileTemplate() {
+export function ProfileTemplate({userProfile}: any) {
+  console.log({userProfile});
+  
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../assets/images/profile.jpg')} 
+        source={{ uri: `http://localhost:4006/${userProfile}` }}
         style={styles.image}
       />
     </View>

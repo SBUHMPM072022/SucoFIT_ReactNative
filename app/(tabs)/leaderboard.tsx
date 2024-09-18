@@ -2,13 +2,31 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { FontAwesomeTemplate } from '@/components/navigation/TabBarIcon';
 import * as SecureStore from 'expo-secure-store';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Auth } from '@/utils/Helper';
+import axios from 'axios';
 
 export default function TabTwoScreen() {
+  const [leaderboardData, setLeaderboardData]: any = useState([]);
+  const [leaderboardLoading, setLeaderboardLoading] = useState(true);
+  const [leaderboardError, setLeaderboardError] = useState(null);
+
+  const getLeaderboardList = async () => {
+    try{
+      const response = await axios.get('http://localhost:4006/api/v1/web/leaderboard');
+      const data = response.data.data;
+
+      setLeaderboardData(data)
+    }catch(error: any){
+      setLeaderboardError(error)
+    }finally{
+      setLeaderboardLoading(false)
+    }
+  }
 
   useEffect(() => {
-    Auth.CheckAuth()
+    Auth.CheckAuth();
+    getLeaderboardList();
   },[]);
 
   return (
@@ -53,137 +71,85 @@ export default function TabTwoScreen() {
           <View style={{ flexDirection: 'column', alignItems: 'center' }}>
             <View style={{ position: 'absolute', zIndex: 100, top: -26 }}>
               <Image
-                source={require('../../assets/images/profile.jpg')} 
+                source={{ uri: `http://localhost:4006/${leaderboardData[1]?leaderboardData[1].profile_picture: ''}` }}
                 style={styles.image}
               />
             </View>
             <View style={styles.podium2}>
               <View style={{ flexDirection: 'column', alignItems: 'center', paddingTop: 17 }}>
-                <Text style={{ color: 'white', fontWeight: '200' }}>ivanfabs</Text>
+                <View style={{ width: 60 }}>
+                  <Text style={{ color: 'white', fontWeight: '200' }} ellipsizeMode='tail' numberOfLines={1}>@{leaderboardData[1]?leaderboardData[1].username: ''}</Text>
+                </View>
                 <Text style={{ fontSize: 27, fontWeight: '600', color: 'white' }}>2</Text>
               </View>
-              <Text style={{ color: 'white', textAlign: 'center', fontWeight: '600' }}>3000 pts</Text>
+              <Text style={{ color: 'white', textAlign: 'center', fontWeight: '600' }}>{leaderboardData[1]?leaderboardData[1].total_point:0} pts</Text>
             </View>
           </View>
 
           <View style={{ flexDirection: 'column', alignItems: 'center' }}>
           <View style={{ position: 'absolute', zIndex: 100, top: -35 }}>
             <Image
-              source={require('../../assets/images/profile.jpg')} 
-              style={styles.image}
+                source={{ uri: `http://localhost:4006/${leaderboardData[0]?leaderboardData[0].profile_picture: ''}` }}
+                style={styles.image}
             />
           </View>
           <View style={styles.podium1}>
             <View style={{ flexDirection: 'column', alignItems: 'center', paddingTop: 17 }}>
-              <Text style={{ color: 'white', fontWeight: '200' }}>ivanfabs</Text>
+              <View style={{ width: 60 }}>
+                <Text style={{ color: 'white', fontWeight: '200' }} numberOfLines={1} ellipsizeMode='tail'>@{leaderboardData[0]?leaderboardData[0].username: ''}</Text>
+              </View>
               <Text style={{ fontSize: 27, fontWeight: '600', color: 'white' }}>1</Text>
             </View>
-            <Text style={{ color: 'white', textAlign: 'center', fontWeight: '600' }}>3230 pts</Text>
+            <Text style={{ color: 'white', textAlign: 'center', fontWeight: '600' }}>{leaderboardData[0]?leaderboardData[0].total_point:0} pts</Text>
           </View>
           </View>
 
           <View style={{ flexDirection: 'column', alignItems: 'center' }}>
           <View style={{ position: 'absolute', zIndex: 100, top: -16 }}>
             <Image
-              source={require('../../assets/images/profile.jpg')} 
-              style={styles.image}
+                source={{ uri: `http://localhost:4006/${leaderboardData[2]?leaderboardData[2].profile_picture: ''}` }}
+                style={styles.image}
             />
           </View>
           <View style={styles.podium3}>
             <View style={{ flexDirection: 'column', alignItems: 'center', paddingTop: 17 }}>
-              <Text style={{ color: 'white', fontWeight: '200' }}>ivanfabs</Text>
+              <View style={{ width: 60 }}>
+                <Text style={{ color: 'white', fontWeight: '200' }} numberOfLines={1} ellipsizeMode='tail'>@{leaderboardData[2]?leaderboardData[2].username: ''}</Text>
+              </View>
               <Text style={{ fontSize: 27, fontWeight: '600', color: 'white' }}>3</Text>
             </View>
-            <Text style={{ color: 'white', textAlign: 'center', fontWeight: '600' }}>2820 pts</Text>
+            <Text style={{ color: 'white', textAlign: 'center', fontWeight: '600' }}>{leaderboardData[2]?leaderboardData[2].total_point:0} pts</Text>
           </View>
           </View>
         </View>
         <View style={styles.leaderboard_container}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 7 }}>
-            <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-              <Text style={{ fontSize: 20, fontWeight: '600', color: '#7E7E7E' }}>01</Text>
-              <Image
-                source={require('../../assets/images/profile.jpg')} 
-                style={styles.image}
-              />
-              <View>
-                <Text style={{ fontSize: 16, fontWeight: '500', color: '#222222' }}>Ivan Fabriano</Text>
-                <Text style={{ fontSize: 14, color: '#7E7E7E' }}>@ivanfabs</Text>
-              </View>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 4 }}>
-              <Text style={{ fontSize: 20, fontWeight: '600',color: '#7E7E7E' }}>3230</Text>
-              <Text style={{ fontSize: 16, fontWeight: '600',color: '#7E7E7E' }}>pts</Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 7 }}>
-            <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-              <Text style={{ fontSize: 20, fontWeight: '600', color: '#7E7E7E' }}>01</Text>
-              <Image
-                source={require('../../assets/images/profile.jpg')} 
-                style={styles.image}
-              />
-              <View>
-                <Text style={{ fontSize: 16, fontWeight: '500', color: '#222222' }}>Ivan Fabriano</Text>
-                <Text style={{ fontSize: 14, color: '#7E7E7E' }}>@ivanfabs</Text>
-              </View>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 4 }}>
-              <Text style={{ fontSize: 20, fontWeight: '600',color: '#7E7E7E' }}>3230</Text>
-              <Text style={{ fontSize: 16, fontWeight: '600',color: '#7E7E7E' }}>pts</Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 7 }}>
-            <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-              <Text style={{ fontSize: 20, fontWeight: '600', color: '#7E7E7E' }}>01</Text>
-              <Image
-                source={require('../../assets/images/profile.jpg')} 
-                style={styles.image}
-              />
-              <View>
-                <Text style={{ fontSize: 16, fontWeight: '500', color: '#222222' }}>Ivan Fabriano</Text>
-                <Text style={{ fontSize: 14, color: '#7E7E7E' }}>@ivanfabs</Text>
-              </View>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 4 }}>
-              <Text style={{ fontSize: 20, fontWeight: '600',color: '#7E7E7E' }}>3230</Text>
-              <Text style={{ fontSize: 16, fontWeight: '600',color: '#7E7E7E' }}>pts</Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 7 }}>
-            <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-              <Text style={{ fontSize: 20, fontWeight: '600', color: '#7E7E7E' }}>01</Text>
-              <Image
-                source={require('../../assets/images/profile.jpg')} 
-                style={styles.image}
-              />
-              <View>
-                <Text style={{ fontSize: 16, fontWeight: '500', color: '#222222' }}>Ivan Fabriano</Text>
-                <Text style={{ fontSize: 14, color: '#7E7E7E' }}>@ivanfabs</Text>
-              </View>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 4 }}>
-              <Text style={{ fontSize: 20, fontWeight: '600',color: '#7E7E7E' }}>3230</Text>
-              <Text style={{ fontSize: 16, fontWeight: '600',color: '#7E7E7E' }}>pts</Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 7 }}>
-            <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-              <Text style={{ fontSize: 20, fontWeight: '600', color: '#7E7E7E' }}>01</Text>
-              <Image
-                source={require('../../assets/images/profile.jpg')} 
-                style={styles.image}
-              />
-              <View>
-                <Text style={{ fontSize: 16, fontWeight: '500', color: '#222222' }}>Ivan Fabriano</Text>
-                <Text style={{ fontSize: 14, color: '#7E7E7E' }}>@ivanfabs</Text>
-              </View>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 4 }}>
-              <Text style={{ fontSize: 20, fontWeight: '600',color: '#7E7E7E' }}>3230</Text>
-              <Text style={{ fontSize: 16, fontWeight: '600',color: '#7E7E7E' }}>pts</Text>
-            </View>
-          </View>
+          {leaderboardData.length > 0 &&
+            leaderboardData.map((value: any, index: number) => {
+              return (
+                <View key={index} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 7 }}>
+                  <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
+                    <Text style={{ fontSize: 20, fontWeight: '600', color: '#7E7E7E' }}>
+                      {
+                        (index+1)>9?(index+1):'0'+(index+1)
+                      }
+                    </Text>
+                    <Image
+                      source={{ uri: `http://localhost:4006/${value.profile_picture}` }}
+                      style={styles.image}
+                    />
+                    <View>
+                      <Text style={{ fontSize: 16, fontWeight: '500', color: '#222222' }}>{value.fullname}</Text>
+                      <Text style={{ fontSize: 14, color: '#7E7E7E' }}>@{value.username}</Text>
+                    </View>
+                  </View>
+                  <View style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 4 }}>
+                    <Text style={{ fontSize: 20, fontWeight: '600',color: '#7E7E7E' }}>{value.total_point}</Text>
+                    <Text style={{ fontSize: 16, fontWeight: '600',color: '#7E7E7E' }}>pts</Text>
+                  </View>
+                </View>
+              )
+            })
+          }
         </View>
       </View>
     </ThemedView>

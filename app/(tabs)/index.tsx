@@ -6,14 +6,18 @@ import { StoryBar } from '@/components/StoryBar';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Auth } from '@/utils/Helper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, FlatList } from 'react-native';
+import { Toast } from 'toastify-react-native'
 
 export default function HomeScreen() {
   const [eventData, setEventData] = useState([]);
-  const [eventLoading, setEventLoading] = useState(false);
+  const [exerciseData, setExerciseData] = useState([]);
+  const [eventLoading, setEventLoading] = useState(true);
   const [eventError, setEventError] = useState(null);
+  const [userId, setUserId] = useState(null)
 
   const handleStoryPress = (story: any) => {
     console.log('Cerita diklik:', story);
@@ -23,13 +27,35 @@ export default function HomeScreen() {
     try{  
       const response = await axios.get('http://localhost:4006/api/v1/web/event');
       const data = response.data.data;
-      console.log(data);
-      
+
       setEventData(data);
     }catch(error: any){
       setEventError(error)
     }finally{
       setEventLoading(false)
+    }
+  }
+
+  const getExerciseData = async () => {
+    try{
+      const response = await axios.get('http://localhost:4006/api/v1/web/exercise');
+      const data = response.data.data;
+
+      console.log(data);
+      
+
+      setExerciseData(data);
+    }catch(error: any){
+      Toast.error('An error occurred!', 'top');
+    }
+  }
+
+  const getUserData = async () => {
+    try{
+      const getUserId: any = await AsyncStorage.getItem("user_id");
+      if(getUserId) setUserId(getUserId);
+    }catch(error){
+      console.log(error);
     }
   }
 
@@ -51,6 +77,8 @@ export default function HomeScreen() {
   useEffect(() => {
     Auth.CheckAuth(),
     getEventData();
+    getUserData();
+    getExerciseData();
   },[]);
   
 
@@ -58,12 +86,12 @@ export default function HomeScreen() {
     <ThemedView style={{ flex: 1 }}>
       <HeaderPage headerTitle='Home' />
       <View style={{ marginTop: 90, backgroundColor: '#F8F8F8', paddingHorizontal: 20 }}>
-        <StoryBar stories={stories} onStoryPress={handleStoryPress} />
+        <StoryBar key={1} exercises={exerciseData} onStoryPress={handleStoryPress} />
         <Text style={styles.sectionTitle}>Your Record</Text>
         <CardRecord />
         <Text style={styles.sectionTitle}>Hot Events</Text>
         <View>
-          <EventBar events={eventData} onEventPress={() => {}}/>
+          <EventBar user_id={userId} events={eventData} onEventPress={() => {}}/>
         </View>
       </View>
     </ThemedView>
