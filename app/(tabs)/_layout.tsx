@@ -13,7 +13,6 @@ export default function TabLayout() {
   const getProfilePicture = async () => {
     try{
       const userProfile: any = await AsyncStorage.getItem('profile_picture');
-      console.log(userProfile);
       
       if(!userProfile) setProfilePicture(userProfile);
     }catch(error){

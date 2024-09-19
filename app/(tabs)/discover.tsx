@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Platform, View } from 'react-native';
+import { Image, StyleSheet, Platform, View, Dimensions, ScrollView, SafeAreaView } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { HeaderPage } from '@/components/HeaderPage';
 import { ListExercises } from '@/components/ListExercises';
@@ -6,12 +6,17 @@ import { useEffect, useState } from 'react';
 import { Auth } from '@/utils/Helper';
 import axios from 'axios';
 import { ListYourEvents } from '@/components/ListYourEvents';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const { height } = Dimensions.get('window');
 
 export default function HomeScreen() {
   const [exerciseData, setExerciseData] = useState([]);
   const [exerciseLoading, setExerciseLoading] = useState(true);
   const [exerciseError, setExerciseError] = useState(null);
   const [activeCategory, setActiveCategory] = useState('All');
+  const [userId, setUserId] = useState(null);
+  const [eventParticipate, setEventParticipate] = useState([]);
 
   const categories = [
     {
@@ -44,9 +49,18 @@ export default function HomeScreen() {
     setActiveCategory(selectedValue);
   }
 
+  const getUserData = async () => {
+    try{
+      const getUserId: any = await AsyncStorage.getItem("user_id");
+      if(getUserId) setUserId(getUserId);
+    }catch(error){
+      console.log(error);
+    }
+  }
+
   const getListExercise = async () => {
     try{
-      const response = await axios.get(`http://localhost:4006/api/v1/web/exercise?category_name=${activeCategory}`);
+      const response = await axios.get(`http://192.168.50.17:4006/api/v1/web/exercise?category_name=${activeCategory}`);
       const data = response.data.data;
 
       setExerciseData(data);
@@ -57,19 +71,36 @@ export default function HomeScreen() {
     }
   }
 
+  const getListEventParticipate = async () => {
+    try{
+      const response = await axios.get(`http://192.168.50.17:4006/api/v1/web/event-participation/${userId}`);
+      const data = response.data.data;
+
+      console.log(data);
+      
+      setEventParticipate(data);
+    }catch(error){
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     Auth.CheckAuth();
     getListExercise();
-  },[activeCategory]);
+    getUserData();
+    if(userId){
+      getListEventParticipate();
+    }
+  },[activeCategory, userId]);
 
   return (
-    <ThemedView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }}>
       <HeaderPage headerTitle='Discover' />
-      <View style={{ marginTop: 90, backgroundColor: '#F8F8F8', paddingHorizontal: 20 }}>
-        <ListExercises exercises={exerciseData} categories={categories} activeCategory={activeCategory} handleSelectCategory={handleSelectCategory}/>
-        <ListYourEvents />
-      </View>
-    </ThemedView>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 20 }} style={{ marginTop: 90, backgroundColor: '#F8F8F8' }}>
+          <ListExercises exercises={exerciseData} categories={categories} activeCategory={activeCategory} handleSelectCategory={handleSelectCategory}/>
+          <ListYourEvents events={eventParticipate}/>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 

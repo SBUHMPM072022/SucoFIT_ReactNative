@@ -2,7 +2,7 @@ import React from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 import { StoryItem } from './StoryItem';
 
-export const StoryBar = ({ key, exercises, onStoryPress }: any) => {
+export const StoryBar = ({ exercises, onStoryPress }: any) => {
   return (
     <View style={styles.container}>
       <FlatList

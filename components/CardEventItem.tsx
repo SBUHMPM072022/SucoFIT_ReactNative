@@ -16,7 +16,7 @@ export const CardEventItem = ({ event_id, event_name, event_date, location, regi
                 event_id: event_id
             };
 
-            const response = await axios.post('http://localhost:4006/api/v1/web/join-event', joinData);
+            const response = await axios.post('http://192.168.50.17:4006/api/v1/web/join-event', joinData);
             setLoading(false);
 
             if(response.data.status == 'success') Toast.success("Your event registration was successful!")
@@ -55,7 +55,7 @@ export const CardEventItem = ({ event_id, event_name, event_date, location, regi
                     </View>
                 </View>
             </LinearGradient>
-      </View>
+        </View>
     )
 }
 

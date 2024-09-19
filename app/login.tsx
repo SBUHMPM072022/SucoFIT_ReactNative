@@ -24,7 +24,7 @@ export default function Login() {
                 password
             }
 
-            const response = await axios.post('http://localhost:4006/api/v1/mobile/login', loginData);
+            const response = await axios.post('http://192.168.50.17:4006/api/v1/mobile/login', loginData);
             setLoading(false);
 
             const dataResponse = response.data.data;
@@ -33,8 +33,8 @@ export default function Login() {
                 await AsyncStorage.setItem('token', dataResponse.token)
                 await AsyncStorage.setItem('fullname', dataResponse.fullname)
                 await AsyncStorage.setItem('profile_picture', dataResponse.profile_picture)
-                await AsyncStorage.setItem('total_point', dataResponse.total_point)
-                await AsyncStorage.setItem('user_id', dataResponse.user_id)
+                await AsyncStorage.setItem('total_point', dataResponse.total_point.toString())
+                await AsyncStorage.setItem('user_id', dataResponse.user_id.toString())
 
                 router.replace('/');
             }

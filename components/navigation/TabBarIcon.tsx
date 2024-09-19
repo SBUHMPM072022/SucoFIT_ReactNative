@@ -21,12 +21,11 @@ export function FeatheTemplate({ style, ...rest }: IconProps<ComponentProps<type
 }
 
 export function ProfileTemplate({userProfile}: any) {
-  console.log({userProfile});
-  
+
   return (
     <View style={styles.container}>
       <Image
-        source={{ uri: `http://localhost:4006/${userProfile}` }}
+        source={{ uri: `http://192.168.50.17:4006/${userProfile}` }}
         style={styles.image}
       />
     </View>

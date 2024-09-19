@@ -25,7 +25,7 @@ export default function HomeScreen() {
 
   const getEventData = async () => {
     try{  
-      const response = await axios.get('http://localhost:4006/api/v1/web/event');
+      const response = await axios.get('http://192.168.50.17:4006/api/v1/web/event');
       const data = response.data.data;
 
       setEventData(data);
@@ -38,7 +38,7 @@ export default function HomeScreen() {
 
   const getExerciseData = async () => {
     try{
-      const response = await axios.get('http://localhost:4006/api/v1/web/exercise');
+      const response = await axios.get('http://192.168.50.17:4006/api/v1/web/exercise');
       const data = response.data.data;
 
       console.log(data);

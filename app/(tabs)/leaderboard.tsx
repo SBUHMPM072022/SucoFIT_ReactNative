@@ -13,7 +13,7 @@ export default function TabTwoScreen() {
 
   const getLeaderboardList = async () => {
     try{
-      const response = await axios.get('http://localhost:4006/api/v1/web/leaderboard');
+      const response = await axios.get('http://192.168.50.17:4006/api/v1/web/leaderboard');
       const data = response.data.data;
 
       setLeaderboardData(data)
@@ -71,7 +71,7 @@ export default function TabTwoScreen() {
           <View style={{ flexDirection: 'column', alignItems: 'center' }}>
             <View style={{ position: 'absolute', zIndex: 100, top: -26 }}>
               <Image
-                source={{ uri: `http://localhost:4006/${leaderboardData[1]?leaderboardData[1].profile_picture: ''}` }}
+                source={{ uri: `http://192.168.50.17:4006/${leaderboardData[1]?leaderboardData[1].profile_picture: ''}` }}
                 style={styles.image}
               />
             </View>
@@ -89,7 +89,7 @@ export default function TabTwoScreen() {
           <View style={{ flexDirection: 'column', alignItems: 'center' }}>
           <View style={{ position: 'absolute', zIndex: 100, top: -35 }}>
             <Image
-                source={{ uri: `http://localhost:4006/${leaderboardData[0]?leaderboardData[0].profile_picture: ''}` }}
+                source={{ uri: `http://192.168.50.17:4006/${leaderboardData[0]?leaderboardData[0].profile_picture: ''}` }}
                 style={styles.image}
             />
           </View>
@@ -107,7 +107,7 @@ export default function TabTwoScreen() {
           <View style={{ flexDirection: 'column', alignItems: 'center' }}>
           <View style={{ position: 'absolute', zIndex: 100, top: -16 }}>
             <Image
-                source={{ uri: `http://localhost:4006/${leaderboardData[2]?leaderboardData[2].profile_picture: ''}` }}
+                source={{ uri: `http://192.168.50.17:4006/${leaderboardData[2]?leaderboardData[2].profile_picture: ''}` }}
                 style={styles.image}
             />
           </View>
@@ -134,7 +134,7 @@ export default function TabTwoScreen() {
                       }
                     </Text>
                     <Image
-                      source={{ uri: `http://localhost:4006/${value.profile_picture}` }}
+                      source={{ uri: `http://192.168.50.17:4006/${value.profile_picture}` }}
                       style={styles.image}
                     />
                     <View>

@@ -28,11 +28,9 @@ export const ListExercises = ({ exercises, categories, activeCategory, handleSel
             {exercises &&
               exercises.map((value: any, index: any) => {
                 return (
-                  <ExerciseItem key={index} exercise={value}/>      
+                  <ExerciseItem key={index} exercise={value} />      
                 )
               }) 
-
-
             }
         </View>
     </View>

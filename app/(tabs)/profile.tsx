@@ -57,7 +57,7 @@ export default function Profile() {
                     </View>
                     <View style={styles.profile_container}>
                         <Image
-                            source={{ uri: `http://localhost:4006/${profilePicture}` }}
+                            source={{ uri: `http://192.168.50.17:4006/${profilePicture}` }}
                             style={styles.image}
                         />
                         <Text style={{ fontSize: 18, color: 'white' }}>{fullname}</Text>

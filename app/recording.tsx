@@ -1,10 +1,12 @@
 import { ThemedView } from '@/components/ThemedView';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import { Stack } from 'expo-router';
+import { Stack, useRouter, useLocalSearchParams } from 'expo-router';
 import { Dimensions } from 'react-native';
 import { FontAwesomeTemplate, IoniconTemplate } from '@/components/navigation/TabBarIcon';
 import { useEffect, useState } from 'react';
 import { ConfirmationModal } from '@/components/ConfirmationModal';
+import * as Location from 'expo-location';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { height } = Dimensions.get('window');
 
@@ -12,7 +14,49 @@ export default function RecordJoging() {
     const [isStart, setIsStart] = useState(false);
     const [seconds, setSeconds] = useState(0);
     const [modalVisible, setModalVisible] = useState(false);
+    const [location, setLocation] = useState(null);
+    const [userId, setUserId] = useState(null);
+    const [errorMsg, setErrorMsg]: any = useState(null);
+    const [exerciseData, setExerciseData]: any = useState({});
 
+    const router: any = useRouter();
+    const { exercise }: any = useLocalSearchParams();
+    
+    const onPress = () => {
+      router.push({
+        pathname: '/discover'
+      });
+    }
+
+    const getLocation = async () => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+            setErrorMsg('Permission to access location was denied');
+            return;
+        }
+
+        let location: any = await Location.getCurrentPositionAsync({});
+        setLocation(location.coords);
+    }
+
+    const getUserData = async () => {
+        try{
+          const getUserId: any = await AsyncStorage.getItem("user_id");
+          if(getUserId) setUserId(getUserId);
+        }catch(error){
+          console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        getLocation(); 
+        getUserData();   
+    }, []);
+    
+    
+    useEffect(() => {
+        if(exercise) setExerciseData(JSON.parse(exercise));
+    }, [exercise])
     useEffect(() => {
         if(isStart){
             const interval = setInterval(() => {
@@ -52,6 +96,12 @@ export default function RecordJoging() {
         <ThemedView>
             <Stack.Screen options={{ headerShown: false }} />
             <View style={styles.background_page}>
+                <View style={{ backgroundColor: '#027FB9', position: 'absolute', top: 55, left: 10 }}>
+                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => onPress()}>
+                        <IoniconTemplate name={'chevron-back'} color={'white'}/>
+                        <Text style={{ fontSize: 18, color: 'white' }}>Back</Text>
+                    </TouchableOpacity>
+                </View>
                 <Text style={{ fontSize: 24, fontWeight: 600, textAlign: 'center', color: 'white', marginTop: 20 }}>Recording</Text>
                 <View>
                     <View style={styles.timer}>
@@ -82,7 +132,7 @@ export default function RecordJoging() {
                 </View>
             </View>
             {modalVisible &&
-                <ConfirmationModal modalVisible={modalVisible} closeModal={handleCloseModal} handleConfirm={handleConfirm} handleCancel={handleCancel}/>
+                <ConfirmationModal modalVisible={modalVisible} closeModal={handleCloseModal} handleConfirm={handleConfirm} handleCancel={handleCancel} location={location} exercise_id={exerciseData.id} duration={seconds} user_id={userId}/>
             }
         </ThemedView>
     )

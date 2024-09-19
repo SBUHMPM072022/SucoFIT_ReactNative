@@ -5,15 +5,16 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 export const ExerciseItem = ({ exercise } : any) => {
   const router: any = useRouter();
 
-  const onPress = () => {
+  const onPress = (exercise: any) => {
     router.push({
-      pathname: '/recording'
+      pathname: '/recording',
+      params: { exercise: JSON.stringify(exercise) },
     });
   }
 
   return (
-    <TouchableOpacity onPress={() => onPress()} style={styles.storyItem}>
-      <Image source={{ uri: `http://localhost:4006/${exercise.exercise_cover}` }} resizeMode='cover' style={styles.image}/>
+    <TouchableOpacity onPress={() => onPress(exercise)} style={styles.storyItem}>
+      <Image source={{ uri: `http://192.168.50.17:4006/${exercise.exercise_cover}` }} resizeMode='cover' style={styles.image}/>
       <Text style={{ paddingVertical: 4, paddingHorizontal: 3, fontWeight: '600', color: '#222222' }}>{exercise.exercise_name}</Text>
     </TouchableOpacity>
   );
