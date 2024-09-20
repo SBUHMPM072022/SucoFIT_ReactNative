@@ -8,7 +8,7 @@ export const EventBar = ({ user_id, events, onEventPress }: any) => {
     <View style={styles.container}>
       <FlatList
         data={events}
-        renderItem={({ item }) => <CardEventItem event_id={item.id} event_name={item.event_name} event_date={item.event_date} location={item.location} user_id={user_id}/>}
+        renderItem={({ item }) => <CardEventItem event_id={item.id} event_name={item.event_name} event_date={item.event_date} location={item.location} user_id={user_id} point={item.point}/>}
         keyExtractor={(item) => item.id}
         horizontal
         showsHorizontalScrollIndicator={false}

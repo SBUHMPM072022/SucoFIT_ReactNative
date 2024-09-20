@@ -4,12 +4,12 @@ import { CardEventSmall } from "./CardEventSmall"
 export const ListYourEvents = ({events}: any) => {
     return (
         <View style={styles.container}>
-            <Text style={{ fontWeight: '600', marginBottom: 15 }}>List Your Events</Text>
+            <Text style={{ fontWeight: '600', marginBottom: 15 }}>{events.length > 0?"List Your Events":""}</Text>
             <View style={styles.card_container}>
                 {events && 
                     events.map((value: any, index: any) => {
                         return (
-                            <CardEventSmall key={index} event_id={value.id} event_name={value.event_name} event_date={value.event_date} location={value.location} />
+                            <CardEventSmall key={index} event_id={value.id} event_name={value.event_name} event_date={value.event_date} location={value.location} participation_id={value.participation_id} point={value.point} />
                         )
                     })
                 }

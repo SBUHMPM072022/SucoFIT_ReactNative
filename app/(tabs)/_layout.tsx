@@ -13,8 +13,7 @@ export default function TabLayout() {
   const getProfilePicture = async () => {
     try{
       const userProfile: any = await AsyncStorage.getItem('profile_picture');
-      
-      if(!userProfile) setProfilePicture(userProfile);
+      setProfilePicture(userProfile);
     }catch(error){
       console.log(error);
     }
@@ -22,13 +21,12 @@ export default function TabLayout() {
 
   useEffect(() => {
     getProfilePicture();
-  }, [])
+  }, [profilePicture])
 
   return (
     <Tabs
       screenOptions={{
-        // tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        tabBarActiveTintColor: Colors['light'].tint,
+        tabBarActiveTintColor: '#027FB9',
         headerShown: false,
         tabBarStyle: {
           height: 65
@@ -75,7 +73,7 @@ export default function TabLayout() {
         options={{
           title: '',
           tabBarIcon: ({ color, focused }) => (
-            <ProfileTemplate userProfile={profilePicture}/>
+            <ProfileTemplate userProfile={profilePicture} focused={focused}/>
           ),
         }}
       />

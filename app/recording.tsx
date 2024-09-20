@@ -103,6 +103,7 @@ export default function RecordJoging() {
                     </TouchableOpacity>
                 </View>
                 <Text style={{ fontSize: 24, fontWeight: 600, textAlign: 'center', color: 'white', marginTop: 20 }}>Recording</Text>
+                <Text style={{ fontSize: 18, textAlign: 'center', color: 'white'}}>{exerciseData.exercise_name}</Text>
                 <View>
                     <View style={styles.timer}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>

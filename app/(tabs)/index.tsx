@@ -41,9 +41,6 @@ export default function HomeScreen() {
       const response = await axios.get('http://192.168.50.17:4006/api/v1/web/exercise');
       const data = response.data.data;
 
-      console.log(data);
-      
-
       setExerciseData(data);
     }catch(error: any){
       Toast.error('An error occurred!', 'top');
@@ -58,21 +55,6 @@ export default function HomeScreen() {
       console.log(error);
     }
   }
-
-  const stories = [
-    {
-      id: '1',
-      username: 'Joging',
-      imageUrl: 'https://example.com/story1.jpg',
-      viewed: false,
-    },
-    {
-      id: '2',
-      username: 'Badminton',
-      imageUrl: 'https://example.com/story2.jpg',
-      viewed: true,
-    },
-  ];
 
   useEffect(() => {
     Auth.CheckAuth(),

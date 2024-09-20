@@ -20,7 +20,7 @@ export function FeatheTemplate({ style, ...rest }: IconProps<ComponentProps<type
   return <Feather size={28} style={[{ marginBottom: -3 }, style]} {...rest} />;
 }
 
-export function ProfileTemplate({userProfile}: any) {
+export function ProfileTemplate({userProfile, focused}: any) {
 
   return (
     <View style={styles.container}>

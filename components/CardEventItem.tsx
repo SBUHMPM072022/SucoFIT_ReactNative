@@ -4,7 +4,7 @@ import axios from "axios";
 import { Toast } from "toastify-react-native";
 import { useState } from "react";
 
-export const CardEventItem = ({ event_id, event_name, event_date, location, registration_date, user_id }: any) => {
+export const CardEventItem = ({ event_id, event_name, event_date, location, registration_date, user_id, point }: any) => {
     const [loading, setLoading] = useState(false);
 
     const handleJoin = async() => {
@@ -18,6 +18,8 @@ export const CardEventItem = ({ event_id, event_name, event_date, location, regi
 
             const response = await axios.post('http://192.168.50.17:4006/api/v1/web/join-event', joinData);
             setLoading(false);
+
+            if(response.status == 211) Toast.error("You have been registered for this event", "top")
 
             if(response.data.status == 'success') Toast.success("Your event registration was successful!")
             
@@ -36,7 +38,15 @@ export const CardEventItem = ({ event_id, event_name, event_date, location, regi
             >
                 <View style={styles.container}>
                     <View style={styles.text_section}>
-                        <Text style={styles.title}>{event_name}</Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Text style={styles.title}>{event_name}</Text>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
+                                <View style={styles.circle}>
+                                    <Text style={styles.letter}>P</Text>
+                                </View>
+                                <Text style={{ fontWeight: 600, color: 'white' }}> {point}</Text>
+                            </View>
+                        </View>
                         <View style={{ marginTop: 10 }}>
                             <Text style={styles.text_thin}>{location}</Text>
                             <View style={{ marginVertical: 5 }}>
@@ -113,5 +123,23 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginVertical: 5,
         fontSize: 18
-    }
+    },
+    circle: {
+        width: 20, 
+        height: 20,
+        borderRadius: 50, 
+        backgroundColor: '#FF7F3E', 
+        justifyContent: 'center', 
+        alignItems: 'center'
+    },
+    header2: {
+        fontSize: 20,
+        fontWeight: '600',
+        color: 'white'
+    },
+    letter: {
+        fontSize: 12, 
+        fontWeight: 'bold',
+        color: '#FFFFFF'
+    },
   });

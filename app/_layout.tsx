@@ -34,7 +34,7 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={DefaultTheme}> 
-      <ToastManager positionValue={0} height={50} textStyle={{ fontSize: 14 }}/>
+      <ToastManager positionValue={20} height={80} width={300} textStyle={{ fontSize: 14,  }}/>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />

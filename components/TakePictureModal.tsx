@@ -4,7 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import { useRouter } from 'expo-router';
 
-export const ConfirmationModal = ({ modalVisible, closeModal, handleConfirm, handleCancel, location, exercise_id, duration, user_id }: any) => {
+export const TakePictureModal = ({ modalVisible, closeModal, handleConfirm, handleCancel, location, participation_id, point, user_id }: any) => {
   const router: any = useRouter();
     
   const [image, setImage] = useState(null);
@@ -36,20 +36,19 @@ export const ConfirmationModal = ({ modalVisible, closeModal, handleConfirm, han
     if(!image) return;
 
     const formData: any = new FormData();
-    formData.append('file_photo_evidence', {
+    formData.append('file_photo_event_evidence', {
       uri: image,
       type: 'image/jpeg', 
       name: 'photo.jpg',
     });
 
-    formData.append('exercise_id', exercise_id);
-    formData.append('latitude', location.latitude);
-    formData.append('longitude', location.longitude);
-    formData.append('duration', duration);
+    formData.append('presence_latitude', location.latitude);
+    formData.append('presence_longitude', location.longitude);
+    formData.append('point', point);
     formData.append('user_id', user_id);
 
     try{
-      const response = await axios.post('http://192.168.50.17:4006/api/v1/web/exercise-record', formData, {
+      const response = await axios.put(`http://192.168.50.17:4006/api/v1/web/participant/${participation_id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data', 
         },
@@ -60,6 +59,7 @@ export const ConfirmationModal = ({ modalVisible, closeModal, handleConfirm, han
         router.push({
           pathname: '/discover'
         });
+
 
       }
     }catch(error){
@@ -84,13 +84,13 @@ export const ConfirmationModal = ({ modalVisible, closeModal, handleConfirm, han
             <View style={{ marginBottom: 10 }}>
               {image && <Image source={{ uri: image }} style={{ width: 200, aspectRatio }} />}
             </View>
-            <Text style={styles.modalText}>Are you sure you want to stop your exercise record?</Text>
+            <Text style={styles.modalText}>Are you sure you want to submit the attendance proof for this activity?</Text>
             
             <TouchableOpacity
               style={[styles.button, styles.buttonConfirm]}
               onPress={() => uploadData()}
             >
-              <Text style={styles.textStyle}>Yes, enough for today</Text>
+              <Text style={styles.textStyle}>Yes, I am sure</Text>
             </TouchableOpacity>
 
             <TouchableOpacity

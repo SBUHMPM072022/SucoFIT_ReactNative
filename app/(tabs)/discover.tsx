@@ -1,8 +1,8 @@
-import { Image, StyleSheet, Platform, View, Dimensions, ScrollView, SafeAreaView } from 'react-native';
+import { Image, StyleSheet, Platform, View, Dimensions, ScrollView, SafeAreaView, RefreshControl } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { HeaderPage } from '@/components/HeaderPage';
 import { ListExercises } from '@/components/ListExercises';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Auth } from '@/utils/Helper';
 import axios from 'axios';
 import { ListYourEvents } from '@/components/ListYourEvents';
@@ -17,6 +17,7 @@ export default function HomeScreen() {
   const [activeCategory, setActiveCategory] = useState('All');
   const [userId, setUserId] = useState(null);
   const [eventParticipate, setEventParticipate] = useState([]);
+  const [refreshing, setRefreshing] = useState(false)
 
   const categories = [
     {
@@ -44,6 +45,17 @@ export default function HomeScreen() {
       category_name: 'Flexibility'
     },
   ];
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      getListExercise();
+      if(userId){
+        getListEventParticipate();
+      }
+      setRefreshing(false);
+    }, 2000);
+  },[])
 
   const handleSelectCategory = (selectedValue: string) => {
     setActiveCategory(selectedValue);
@@ -96,7 +108,17 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <HeaderPage headerTitle='Discover' />
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 20 }} style={{ marginTop: 90, backgroundColor: '#F8F8F8' }}>
+      <ScrollView  
+        showsVerticalScrollIndicator={false} 
+        contentContainerStyle={{ paddingHorizontal: 20 }} 
+        style={{ marginTop: 90, backgroundColor: '#F8F8F8' }}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }
+      >
           <ListExercises exercises={exerciseData} categories={categories} activeCategory={activeCategory} handleSelectCategory={handleSelectCategory}/>
           <ListYourEvents events={eventParticipate}/>
       </ScrollView>

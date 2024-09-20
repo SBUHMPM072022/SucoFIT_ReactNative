@@ -7,6 +7,7 @@ import { CardRecord } from '@/components/CardRecord';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Auth } from '@/utils/Helper';
+import axios from 'axios';
 
 const { height } = Dimensions.get('window');
 
@@ -15,21 +16,35 @@ export default function Profile() {
     const [division, setDivision] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [userPoint, setUserPoint] = useState(0);
+    const [userId, setUserId]: any = useState(null);
     
     const [profilePicture, setProfilePicture] = useState('');
-    const [totalPoint, setTotalPoint] = useState(0);
     const [token, setToken] = useState('');
+
+    const getUserPoint = async () => {
+        try{
+          const response = await axios.get(`http://192.168.50.17:4006/api/v1/web/user/get-point/${userId}`);
+          const data = response.data.data;
+          console.log(data);
+          
+    
+          setUserPoint(data.total_point);
+        }catch(error){
+          console.log(error);
+        }
+    }
 
     const getProfileData = async () => {
         try{
+            const getUserId = await AsyncStorage.getItem("user_id");
             const getFullname = await AsyncStorage.getItem("fullname");
             const getProfilePicture = await AsyncStorage.getItem("profile_picture");
-            const getTotalPoint = await AsyncStorage.getItem("total_point");
             const getToken = await AsyncStorage.getItem("token");
 
+            if(getUserId) setUserId(getUserId);
             if(getFullname) setFullname(getFullname);
             if(getProfilePicture) setProfilePicture(getProfilePicture);
-            if(getTotalPoint) setTotalPoint(parseInt(getTotalPoint));
             if(getToken) {
                 setToken(getToken);
                 const data: any = await Auth.JWTDecoded(getToken)
@@ -47,6 +62,12 @@ export default function Profile() {
     useEffect(() => {
         getProfileData();
     }, [])
+
+    useEffect(() => {
+        if(userId){
+            getUserPoint();
+        }
+    }, [userId])
 
     return (
         <ThemedView>
@@ -66,7 +87,7 @@ export default function Profile() {
                                 <View style={styles.circle}>
                                     <Text style={styles.letter}>P</Text>
                                 </View>
-                                <Text style={styles.header2}>{totalPoint}</Text>
+                                <Text style={styles.header2}>{userPoint}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                                 <View style={styles.circle}>

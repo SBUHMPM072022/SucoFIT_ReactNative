@@ -1,9 +1,19 @@
 import { LinearGradient } from "expo-linear-gradient"
-import { View, StyleSheet, Text } from "react-native"
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native"
+import { useRouter } from 'expo-router';
 
-export const CardEventSmall = ({ event_id, event_name, event_date, location }: any) => {
+export const CardEventSmall = ({ event_id, event_name, event_date, location, participation_id, point }: any) => {
+    const router: any = useRouter();
+
+    const onPress = ( event_id : number, participation_id: number) => {
+        router.push({
+          pathname: '/recordingEvent',
+          params: { event_id, participation_id },
+        });
+    }
+
     return (
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={() => onPress(event_id, participation_id)}>
             <LinearGradient
               colors={['#0277B5', '#00B4D7']}
               style={styles.gradient}
@@ -12,10 +22,18 @@ export const CardEventSmall = ({ event_id, event_name, event_date, location }: a
             >
                 <View style={styles.card_container}>
                     <View style={styles.text_section}>
-                        <View>
-                            <Text style={styles.title}>{event_name}</Text>
-                        </View>
-                        <View style={{ marginTop: 10 }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <View>
+                                    <Text style={styles.title}>{event_name}</Text>
+                                </View>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
+                                    <View style={styles.circle}>
+                                        <Text style={styles.letter}>P</Text>
+                                    </View>
+                                    <Text style={{ fontWeight: 600, color: 'white' }}> {point}</Text>
+                                </View>
+                            </View>
+                            <View style={{ marginTop: 10 }}>
                             <Text style={styles.text_thin}>{location}</Text>
                             <View style={{ marginVertical: 5 }}>
                                 <Text style={styles.text_light}>Held On</Text>
@@ -25,7 +43,7 @@ export const CardEventSmall = ({ event_id, event_name, event_date, location }: a
                     </View>
                 </View>
             </LinearGradient>
-        </View>
+        </TouchableOpacity>
     )
 }
 
@@ -61,5 +79,23 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 14,
         fontWeight: '300'
+    },
+    circle: {
+        width: 20, 
+        height: 20,
+        borderRadius: 50, 
+        backgroundColor: '#FF7F3E', 
+        justifyContent: 'center', 
+        alignItems: 'center'
+    },
+    header2: {
+        fontSize: 20,
+        fontWeight: '600',
+        color: 'white'
+    },
+    letter: {
+        fontSize: 12, 
+        fontWeight: 'bold',
+        color: '#FFFFFF'
     },
 })
