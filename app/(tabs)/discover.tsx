@@ -72,7 +72,7 @@ export default function HomeScreen() {
 
   const getListExercise = async () => {
     try{
-      const response = await axios.get(`http://192.168.50.17:4006/api/v1/web/exercise?category_name=${activeCategory}`);
+      const response = await axios.get(`http://192.168.100.23:4006/api/v1/web/exercise?category_name=${activeCategory}`);
       const data = response.data.data;
 
       setExerciseData(data);
@@ -85,7 +85,7 @@ export default function HomeScreen() {
 
   const getListEventParticipate = async () => {
     try{
-      const response = await axios.get(`http://192.168.50.17:4006/api/v1/web/event-participation/${userId}`);
+      const response = await axios.get(`http://192.168.100.23:4006/api/v1/web/event-participation/${userId}`);
       const data = response.data.data;
 
       console.log(data);

@@ -27,7 +27,7 @@ export default function TabTwoScreen() {
 
   const getLeaderboardList = async () => {
     try{
-      const response = await axios.get('http://192.168.50.17:4006/api/v1/web/leaderboard');
+      const response = await axios.get('http://192.168.100.23:4006/api/v1/web/leaderboard');
       const data = response.data.data;
 
       setLeaderboardData(data)
@@ -40,7 +40,7 @@ export default function TabTwoScreen() {
 
   const getUserPoint = async () => {
     try{
-      const response = await axios.get(`http://192.168.50.17:4006/api/v1/web/user/get-point/${userId}`);
+      const response = await axios.get(`http://192.168.100.23:4006/api/v1/web/user/get-point/${userId}`);
       const data = response.data.data;
 
       setUserPoint(data.total_point);
@@ -112,7 +112,7 @@ export default function TabTwoScreen() {
             <View style={{ flexDirection: 'column', alignItems: 'center' }}>
               <View style={{ position: 'absolute', zIndex: 100, top: -26 }}>
                 <Image
-                  source={{ uri: `http://192.168.50.17:4006/${leaderboardData[1]?leaderboardData[1].profile_picture: ''}` }}
+                  source={{ uri: `http://192.168.100.23:4006/${leaderboardData[1]?leaderboardData[1].profile_picture: ''}` }}
                   style={styles.image}
                 />
               </View>
@@ -130,7 +130,7 @@ export default function TabTwoScreen() {
             <View style={{ flexDirection: 'column', alignItems: 'center' }}>
             <View style={{ position: 'absolute', zIndex: 100, top: -35 }}>
               <Image
-                  source={{ uri: `http://192.168.50.17:4006/${leaderboardData[0]?leaderboardData[0].profile_picture: ''}` }}
+                  source={{ uri: `http://192.168.100.23:4006/${leaderboardData[0]?leaderboardData[0].profile_picture: ''}` }}
                   style={styles.image}
               />
             </View>
@@ -148,7 +148,7 @@ export default function TabTwoScreen() {
             <View style={{ flexDirection: 'column', alignItems: 'center' }}>
             <View style={{ position: 'absolute', zIndex: 100, top: -16 }}>
               <Image
-                  source={{ uri: `http://192.168.50.17:4006/${leaderboardData[2]?leaderboardData[2].profile_picture: ''}` }}
+                  source={{ uri: `http://192.168.100.23:4006/${leaderboardData[2]?leaderboardData[2].profile_picture: ''}` }}
                   style={styles.image}
               />
             </View>
@@ -175,7 +175,7 @@ export default function TabTwoScreen() {
                       {(index+1) > 9 ? (index+1) : '0' + (index+1)}
                     </Text>
                     <Image
-                      source={{ uri: `http://192.168.50.17:4006/${item.profile_picture}` }}
+                      source={{ uri: `http://192.168.100.23:4006/${item.profile_picture}` }}
                       style={styles.image}
                     />
                     <View>

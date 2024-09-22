@@ -25,7 +25,7 @@ export function ProfileTemplate({userProfile, focused}: any) {
   return (
     <View style={styles.container}>
       <Image
-        source={{ uri: `http://192.168.50.17:4006/${userProfile}` }}
+        source={{ uri: `http://192.168.100.23:4006/${userProfile}` }}
         style={styles.image}
       />
     </View>

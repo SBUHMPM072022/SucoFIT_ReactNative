@@ -30,7 +30,7 @@ export default function RecordingEvent() {
 
     const getEventData = async() => {
         try{
-            const response = await axios.get(`http://192.168.50.17:4006/api/v1/web/event/${event_id}`);
+            const response = await axios.get(`http://192.168.100.23:4006/api/v1/web/event/${event_id}`);
             const data = response.data.data;
 
             setEventData(data)

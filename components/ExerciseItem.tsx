@@ -14,7 +14,7 @@ export const ExerciseItem = ({ exercise } : any) => {
 
   return (
     <TouchableOpacity onPress={() => onPress(exercise)} style={styles.storyItem}>
-      <Image source={{ uri: `http://192.168.50.17:4006/${exercise.exercise_cover}` }} resizeMode='cover' style={styles.image}/>
+      <Image source={{ uri: `http://192.168.100.23:4006/${exercise.exercise_cover}` }} resizeMode='cover' style={styles.image}/>
       <Text style={{ paddingVertical: 4, paddingHorizontal: 3, fontWeight: '600', color: '#222222' }}>{exercise.exercise_name}</Text>
     </TouchableOpacity>
   );

@@ -24,7 +24,7 @@ export default function Login() {
                 password
             }
 
-            const response = await axios.post('http://192.168.50.17:4006/api/v1/mobile/login', loginData);
+            const response = await axios.post('http://192.168.100.23:4006/api/v1/mobile/login', loginData);
             setLoading(false);
 
             const dataResponse = response.data.data;

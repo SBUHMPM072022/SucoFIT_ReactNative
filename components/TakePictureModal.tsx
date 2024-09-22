@@ -48,7 +48,7 @@ export const TakePictureModal = ({ modalVisible, closeModal, handleConfirm, hand
     formData.append('user_id', user_id);
 
     try{
-      const response = await axios.put(`http://192.168.50.17:4006/api/v1/web/participant/${participation_id}`, formData, {
+      const response = await axios.put(`http://192.168.100.23:4006/api/v1/web/participant/${participation_id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data', 
         },

@@ -49,7 +49,7 @@ export const ConfirmationModal = ({ modalVisible, closeModal, handleConfirm, han
     formData.append('user_id', user_id);
 
     try{
-      const response = await axios.post('http://192.168.50.17:4006/api/v1/web/exercise-record', formData, {
+      const response = await axios.post('http://192.168.100.23:4006/api/v1/web/exercise-record', formData, {
         headers: {
           'Content-Type': 'multipart/form-data', 
         },

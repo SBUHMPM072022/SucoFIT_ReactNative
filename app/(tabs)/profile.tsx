@@ -24,7 +24,7 @@ export default function Profile() {
 
     const getUserPoint = async () => {
         try{
-          const response = await axios.get(`http://192.168.50.17:4006/api/v1/web/user/get-point/${userId}`);
+          const response = await axios.get(`http://192.168.100.23:4006/api/v1/web/user/get-point/${userId}`);
           const data = response.data.data;
           console.log(data);
           
@@ -78,7 +78,7 @@ export default function Profile() {
                     </View>
                     <View style={styles.profile_container}>
                         <Image
-                            source={{ uri: `http://192.168.50.17:4006/${profilePicture}` }}
+                            source={{ uri: `http://192.168.100.23:4006/${profilePicture}` }}
                             style={styles.image}
                         />
                         <Text style={{ fontSize: 18, color: 'white' }}>{fullname}</Text>

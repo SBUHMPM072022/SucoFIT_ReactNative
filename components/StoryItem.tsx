@@ -4,7 +4,7 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 export const StoryItem = ({ exercise, onPress } : any) => {
     return (
       <TouchableOpacity onPress={() => onPress(exercise)} style={styles.storyItem}>
-        <Image source={{ uri: `http://192.168.50.17:4006/${exercise.exercise_cover}` }} style={styles.image} />
+        <Image source={{ uri: `http://192.168.100.23:4006/${exercise.exercise_cover}` }} style={styles.image} />
         <Text style={styles.username}>{exercise.exercise_name}</Text>
       </TouchableOpacity>
     );
